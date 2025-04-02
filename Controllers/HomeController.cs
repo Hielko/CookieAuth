@@ -17,16 +17,12 @@ namespace CookieAuth.Controllers
         [Authorize]
         public IActionResult Index()
         {
+            ViewBag.UserName = User?.Identity?.Name;
             return View();
         }
 
         [Authorize]
         public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        public IActionResult Login(string ReturnUrl)
         {
             return View();
         }

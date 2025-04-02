@@ -49,6 +49,8 @@ namespace CookieAuth.Controllers
                     new ClaimsPrincipal(claimsIdentity)
                     );
 
+              
+
                 return Redirect(ReturnUrl); 
             }
 
