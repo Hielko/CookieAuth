@@ -1,10 +1,10 @@
 using CookieAuth.Models;
+using CookieAuth.Repo;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var u = builder.Configuration.GetSection("Users");
-builder.Services.Configure<List<UserToLogin>>(u);
+builder.Services.AddSingleton<IUsersRepo, UsersRepo>();
 
 builder.Services.AddControllersWithViews();
 
