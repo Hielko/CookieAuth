@@ -1,4 +1,5 @@
 ﻿using CookieAuth.Models;
+using CookieAuth.Repo;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -9,12 +10,13 @@ namespace CookieAuth.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IOptions<List<UserToLogin>> _users;
+        private readonly IUsersRepo _usersRepo;
 
-        public AccountController(IOptions<List<UserToLogin>> users)
+        public AccountController(IUsersRepo usersRepo)
         {
-            _users = users;
+            _usersRepo = usersRepo;
         }
+
 
         [HttpGet]
         public IActionResult Login()
@@ -25,7 +27,7 @@ namespace CookieAuth.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(UserToLogin userToLogin, string ReturnUrl)
         {
-            var user = _users.Value.Find(c => c.UserName == userToLogin.UserName && c.Password == userToLogin.Password);
+            var user = _usersRepo.GetUsers().Find(c => c.UserName == userToLogin.UserName && c.Password == userToLogin.Password);
 
             if (user is not null)
             {
