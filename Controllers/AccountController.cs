@@ -31,7 +31,7 @@ namespace CookieAuth.Controllers
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name,userToLogin.UserName),
+                    new Claim(ClaimTypes.Name, userToLogin.UserName),
                     new Claim("FullName", userToLogin.UserName),
                     new Claim(ClaimTypes.Role, "Administrator"),
                 };
@@ -49,14 +49,12 @@ namespace CookieAuth.Controllers
                     new ClaimsPrincipal(claimsIdentity)
                     );
 
-              
-
-                return Redirect(ReturnUrl); 
+                return Redirect(ReturnUrl);
             }
 
             ViewBag.Error = "Unknown user or wrong password";
             // return Redirect("/Account/Error");
-            return View(); 
+            return View();
         }
 
         [HttpPost]
