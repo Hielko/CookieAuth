@@ -6,9 +6,10 @@ namespace CookieAuth.Repo
     {
         public List<UserToLogin>? users = config.GetSection("Users").Get<List<UserToLogin>>();
 
-        public List<UserToLogin>? GetUsers()
+        public UserToLogin? FindUser(string username, string password)
         {
-            return users;
+            var user = users?.Find(c => c.UserName == username && c.Password == password);
+            return user;
         }
 
     }

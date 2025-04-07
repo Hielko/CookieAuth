@@ -3,7 +3,6 @@ using CookieAuth.Repo;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using System.Security.Claims;
 
 namespace CookieAuth.Controllers
@@ -24,18 +23,25 @@ namespace CookieAuth.Controllers
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Login(UserToLogin userToLogin, string ReturnUrl)
+
+        [HttpGet]
+        public IActionResult AccessDenied()
         {
-            var user = _usersRepo.GetUsers().Find(c => c.UserName == userToLogin.UserName && c.Password == userToLogin.Password);
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(UserToLogin? userToLogin, string? ReturnUrl)
+        {
+            var user = _usersRepo?.FindUser(userToLogin?.UserName, userToLogin?.Password);
 
             if (user is not null)
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name,userToLogin.UserName),
-                    new Claim("FullName", userToLogin.UserName),
-                    new Claim(ClaimTypes.Role, "Administrator"),
+                    new Claim(ClaimTypes.Name,user?.UserName),
+                    new Claim("FullName", user.UserName),
+                    new Claim(ClaimTypes.Role, user.Role ),
                 };
 
                 var claimsIdentity = new ClaimsIdentity(
@@ -51,14 +57,13 @@ namespace CookieAuth.Controllers
                     new ClaimsPrincipal(claimsIdentity)
                     );
 
-              
 
-                return Redirect(ReturnUrl); 
+                return Redirect(ReturnUrl);
             }
 
             ViewBag.Error = "Unknown user or wrong password";
             // return Redirect("/Account/Error");
-            return View(); 
+            return View();
         }
 
         [HttpPost]

@@ -4,6 +4,6 @@ namespace CookieAuth.Repo
 {
     public interface IUsersRepo
     {
-        List<UserToLogin>? GetUsers();
+        UserToLogin? FindUser(string username, string password);
     }
 }
