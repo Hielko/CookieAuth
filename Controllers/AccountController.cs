@@ -57,9 +57,7 @@ namespace CookieAuth.Controllers
                     new ClaimsPrincipal(claimsIdentity)
                     );
 
-              
-
-                return Redirect(ReturnUrl); 
+                return Redirect(ReturnUrl ?? "/Home/Index"); 
             }
 
             ViewBag.Error = "Unknown user or wrong password";
@@ -67,11 +65,12 @@ namespace CookieAuth.Controllers
             return View();
         }
 
-        [HttpPost]
+
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("Login", "Account", new { ReturnUrl = "/"});
         }
     }
 
