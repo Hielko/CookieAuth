@@ -28,6 +28,13 @@ namespace CookieAuth.Controllers
             return View();
         }
 
+
+        [Authorize(Policy = "Premium")]
+        public IActionResult Premium()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

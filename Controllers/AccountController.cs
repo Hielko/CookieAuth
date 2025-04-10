@@ -42,6 +42,7 @@ namespace CookieAuth.Controllers
                     new Claim(ClaimTypes.Name,user.UserName),
                     new Claim("FullName", user.UserName),
                     new Claim(ClaimTypes.Role, user.Role),
+                    new Claim("AccountType", user.AccountType),
                 };
 
                 var claimsIdentity = new ClaimsIdentity(
